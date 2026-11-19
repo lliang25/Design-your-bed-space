@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Build a cozy bed space on a $300 game budget and learn the stories behind your choices.">
+<title>Bed Space</title>
+<link rel="stylesheet" href="style.css">
+<script src="room.js" defer></script>
+<script src="game.js" defer></script>
+</head>
+<body>
+<main>
+<header>
+<div><h1>Bed Space</h1><p>What makes a bed feel like a proper bed?</p></div>
+<div class="budget"><span>Game budget left</span><strong id="balance" aria-live="polite">$300</strong></div>
+</header>
+<div class="layout">
+<section class="studio" aria-label="Your room">
+<div class="scene"><canvas id="room" width="900" height="650" role="img" aria-label="Your room"></canvas></div>
+<div class="tools">
+<button id="night" type="button" aria-pressed="false">Night mode</button>
+<button id="save" type="button">Save picture</button>
+<button id="restart" type="button">Start over</button>
+</div>
+</section>
+<section class="shop" aria-labelledby="shop-title">
+<h2 id="shop-title">Room shop</h2>
+<p id="guide">Choose a sleeping setup to get started.</p>
+<div id="shop-content">
+<div class="categories" role="group" aria-label="Shop category">
+<button data-category="Bed" type="button">Bed</button>
+<button data-category="Bedding" type="button">Bedding</button>
+<button data-category="Decor" type="button">Decor</button>
+</div>
+<div id="catalog" class="catalog"></div>
+<div class="preview">
+<p id="preview" aria-live="polite">Select an item to preview it in the room.</p>
+<button id="buy" class="primary" type="button" disabled>Buy &amp; place</button>
+</div>
+</div>
+<div id="summary" hidden>
+<p id="round-totals"></p>
+<h3>What shaped your choices?</h3>
+<p id="bed-reflection"></p>
+<p>Think about comfort, what you grew up seeing at home, and the rooms you see in ads. Which mattered most to you? What would you keep if nobody else saw your room?</p>
+</div>
+</section>
+</div>
+<details class="about">
+<summary>About the game</summary>
+<p>Inspired by the essay <cite>Why Not Sleep On the Floor</cite>, this game asks how personal comfort, cultural expectations, and advertising shape what we buy for sleep. Prices are fictional, and comfort depends on the person and the room.</p>
+</details>
+</main>
+<dialog id="facts" aria-labelledby="fact-title">
+<p class="eyebrow">Did you know?</p>
+<h2 id="fact-title"></h2>
+<p id="fact-text"></p>
+<a id="fact-source" target="_blank" rel="noopener" hidden></a>
+<form method="dialog"><button class="primary" autofocus>Continue</button></form>
+</dialog>
+<dialog id="reset" aria-labelledby="reset-title">
+<h2 id="reset-title">Start a new room?</h2>
+<p>Your current room and purchases will be cleared.</p>
+<form method="dialog"><button value="cancel" autofocus>Keep room</button> <button class="primary" value="confirm">Start over</button></form>
+</dialog>
+</body>
+</html>
