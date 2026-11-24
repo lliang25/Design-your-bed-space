@@ -40,6 +40,8 @@ button[aria-pressed="true"] { background: #f3dfd3; border-color: #ac6957; }
 .preview { border-top: 1px solid var(--line); padding-top: 8px; }
 .primary { background: var(--accent); color: white; border-color: var(--accent); }
 .preview .primary { width: 100%; }
+#finish { margin-top: 12px; width: 100%; }
+.check-result { padding: 12px; background: #f3dfd3; border: 1px solid var(--line); border-radius: 10px; font-weight: 700; }
 dialog { width: min(460px, calc(100% - 32px)); color: inherit; padding: 24px; box-shadow: 0 20px 65px #2b1e2255; }
 dialog::backdrop { background: #281a24a6; }
 dialog a { color: var(--accent); }

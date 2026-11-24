@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="Build a cozy bed space on a $300 game budget and learn the stories behind your choices.">
+<meta name="description" content="Build a cozy bed space on a $200 game budget and learn the stories behind your choices.">
 <title>Bed Space</title>
 <link rel="stylesheet" href="style.css">
 <script src="room.js" defer></script>
@@ -13,7 +13,7 @@
 <main>
 <header>
 <div><h1>Bed Space</h1><p>What makes a bed feel like a proper bed?</p></div>
-<div class="budget"><span>Game budget left</span><strong id="balance" aria-live="polite">$300</strong></div>
+<div class="budget"><span>Game budget left</span><strong id="balance" aria-live="polite">$200</strong><span>Comfort</span><strong id="comfort" aria-live="polite">0</strong></div>
 </header>
 <div class="layout">
 <section class="studio" aria-label="Your room">
@@ -27,6 +27,7 @@
 <section class="shop" aria-labelledby="shop-title">
 <h2 id="shop-title">Room shop</h2>
 <p id="guide">Choose a sleeping setup to get started.</p>
+<p>Win with money left and more than 100 comfort points.</p>
 <div id="shop-content">
 <div class="categories" role="group" aria-label="Shop category">
 <button data-category="Bed" type="button">Bed</button>
@@ -39,7 +40,9 @@
 <button id="buy" class="primary" type="button" disabled>Buy &amp; place</button>
 </div>
 </div>
+<button id="finish" class="primary" type="button" disabled>Finish design and check</button>
 <div id="summary" hidden>
+<p id="check-result" class="check-result" tabindex="-1" hidden></p>
 <p id="round-totals"></p>
 <h3>What shaped your choices?</h3>
 <p id="bed-reflection"></p>
@@ -49,7 +52,7 @@
 </div>
 <details class="about">
 <summary>About the game</summary>
-<p>Based on the essay <cite>Why Not Sleep On the Floor</cite>, this game asks how personal comfort, cultural expectations, and advertising shape what we buy for sleep. Prices are fictional, and comfort depends on the person and the room.
+<p>Based on the essay <cite>Why Not Sleep On the Floor</cite>, this game asks how personal comfort, cultural expectations, and advertising shape what we buy for sleep. Prices and comfort scores are game values. In real life, comfort depends on the person and the room.
 
 I have been sleeping on a four-inch-thick mattress toppers placed directly on the floor for four years. But as I moved to college and saw my roommates’ carefully decorated beds–with matching sheets, decorative pillows, sturdy frames, and thick mattresses –I began to wonder: where does our idea of a “proper bed space” come from, and why do we spend so much trying to fit our bed space inside that idealized frame?
 </p>

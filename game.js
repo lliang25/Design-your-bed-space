@@ -1,19 +1,20 @@
 'use strict';
 
 const startingBudget = 200;
+const comfortTarget = 100;
 const items = [
-  ['topper', 'Bed', 'bed', 'Mattress topper on the floor', 45, 'A topper is sold as an extra layer for a mattress. The essay begins with a family who bought toppers by mistake, tried them on the floor, and found them comfortable enough to keep using for four years. What would you want to try before buying a whole bed?'],
-  ['foldable', 'Bed', 'bed', 'Foldable futon', 60, 'In Japan, futon bedding is traditionally laid out on woven mats called tatami. Folding it away allows the room to serve other purposes during the day. Western-style beds also became more common after World War II, as ideas about furnishing the home changed.'],
-  ['thick', 'Bed', 'bed', 'Thick floor mattress', 140, 'This setup keeps the cushioning of a mattress and saves the cost of a frame. Think about how much space it takes up, how easy it is to get up from, and how you would keep the underside dry.'],
-  ['frame', 'Bed', 'bed', 'Frame and mattress', 230, 'A frame raises the mattress off the floor and can leave room for airflow or storage. In early modern England, bedsteads and layered bedding could also signal wealth. Which benefits would make the extra cost worthwhile to you?'],
-  ['childhood', 'Bedding', 'sheets', 'Reused childhood sheets', 5, 'The faded stars are part of the story. Reusing a set you already have can keep a familiar pattern in your room and leave money for something else.'],
-  ['fancy', 'Bedding', 'sheets', 'Fancy striped sheets', 45, 'A matching bed can feel good to come home to. Researchers studying IKEA catalogs in China found that the catalogs associated furnishings with an ideal home and a better life. How much of the appeal is the pattern, and how much is the room you imagine around it?'],
-  ['pillows', 'Bedding', 'pillows', 'Pillow set', 20, 'Stacking pillows gives you something to lean against while reading in bed. Extra pillows also take up space when you want to stretch out.'],
-  ['throw', 'Bedding', 'throw', 'Knit throw blanket', 25, 'A throw adds a layer you can pull over your feet or fold away. Draping it across the end of the bed also makes its color visible from across the room.'],
-  ['bear', 'Decor', 'toy', 'Stuffed bear', 15, 'One small object can make a room feel like yours. A stuffed animal you already own could bring the same personal touch without a new purchase.'],
-  ['poster', 'Decor', 'poster', 'Moonrise poster', 10, 'In a shared room, a poster can show what you like and make your corner recognizable. Think about what you would hang for yourself and what you would choose with roommates or guests in mind.'],
-  ['lights', 'Decor', 'lighting', 'String lights', 30, 'Small lights spread points of warm color along the wall. Try Night mode to see how much more noticeable their glow becomes when the room is dark.']
-].map(([id, category, slot, name, price, fact]) => ({ id, category, slot, name, price, fact }));
+  ['topper', 'Bed', 'bed', 'Mattress topper on the floor', 45, 48, 'A topper is sold as an extra layer for a mattress. The essay begins with a family who bought toppers by mistake, tried them on the floor, and found them comfortable enough to keep using for four years. What would you want to try before buying a whole bed?'],
+  ['foldable', 'Bed', 'bed', 'Foldable futon', 60, 55, 'In Japan, futon bedding is traditionally laid out on woven mats called tatami. Folding it away allows the room to serve other purposes during the day. Western-style beds also became more common after World War II, as ideas about furnishing the home changed.'],
+  ['thick', 'Bed', 'bed', 'Thick floor mattress', 140, 78, 'This setup keeps the cushioning of a mattress and saves the cost of a frame. Think about how much space it takes up, how easy it is to get up from, and how you would keep the underside dry.'],
+  ['frame', 'Bed', 'bed', 'Frame and mattress', 230, 90, 'A frame raises the mattress off the floor and can leave room for airflow or storage. In early modern England, bedsteads and layered bedding could also signal wealth. Which benefits would make the extra cost worthwhile to you?'],
+  ['childhood', 'Bedding', 'sheets', 'Reused childhood sheets', 5, 10, 'The faded stars are part of the story. Reusing a set you already have can keep a familiar pattern in your room and leave money for something else.'],
+  ['fancy', 'Bedding', 'sheets', 'Fancy striped sheets', 45, 14, 'A matching bed can feel good to come home to. Researchers studying IKEA catalogs in China found that the catalogs associated furnishings with an ideal home and a better life. How much of the appeal is the pattern, and how much is the room you imagine around it?'],
+  ['pillows', 'Bedding', 'pillows', 'Pillow set', 20, 25, 'Stacking pillows gives you something to lean against while reading in bed. Extra pillows also take up space when you want to stretch out.'],
+  ['throw', 'Bedding', 'throw', 'Knit throw blanket', 25, 26, 'A throw adds a layer you can pull over your feet or fold away. Draping it across the end of the bed also makes its color visible from across the room.'],
+  ['bear', 'Decor', 'toy', 'Stuffed bear', 15, 8, 'One small object can make a room feel like yours. A stuffed animal you already own could bring the same personal touch without a new purchase.'],
+  ['poster', 'Decor', 'poster', 'Moonrise poster', 10, 4, 'In a shared room, a poster can show what you like and make your corner recognizable. Think about what you would hang for yourself and what you would choose with roommates or guests in mind.'],
+  ['lights', 'Decor', 'lighting', 'String lights', 30, 7, 'Small lights spread points of warm color along the wall. Try Night mode to see how much more noticeable their glow becomes when the room is dark.']
+].map(([id, category, slot, name, price, comfort, fact]) => ({ id, category, slot, name, price, comfort, fact }));
 
 const factSources = {
   foldable: ['Read Kikusawa on changing home life in Japan', 'https://doi.org/10.1177/1077727X7900700602'],
@@ -25,13 +26,13 @@ const bedReflections = {
   topper: 'Your topper left more money for other purchases. Would it feel like a proper bed in your own room? What would make that answer change?',
   foldable: 'Your futon can be put away during the day. What else would you use the room for if your bed could fold away?',
   thick: 'You spent money on a thick mattress and kept it at floor level. Would you make the same trade-off in a different room?',
-  frame: 'Your frame and mattress left $70 for everything else. What did having a raised bed give you, and what did you give up to buy it?'
+  frame: 'Your frame and mattress took up a large share of the budget. What did having a raised bed give you, and what did you give up to buy it?'
 };
 
 const get = (id) => document.getElementById(id);
 const categoryButtons = [...document.querySelectorAll('[data-category]')];
 const storageKey = 'bed-space-round-v1';
-const newRound = () => ({ owned: [], night: false });
+const newRound = () => ({ owned: [], night: false, submitted: false });
 
 function loadRound() {
   try {
@@ -41,8 +42,8 @@ function loadRound() {
     const valid = owned.every(Boolean)
       && (!owned.length || owned[0].slot === 'bed')
       && new Set(owned.map((item) => item.slot)).size === owned.length
-      && owned.reduce((spent, item) => spent + item.price, 0) <= startingBudget;
-    return valid ? { owned, night: saved.night === true } : newRound();
+      && owned.slice(0, -1).reduce((spent, item) => spent + item.price, 0) < startingBudget;
+    return valid ? { owned, night: saved.night === true, submitted: owned.length > 0 && saved.submitted === true } : newRound();
   } catch {
     return newRound();
   }
@@ -56,7 +57,8 @@ function persist() {
   try {
     localStorage.setItem(storageKey, JSON.stringify({
       owned: round.owned.map((item) => item.id),
-      night: round.night
+      night: round.night,
+      submitted: round.submitted
     }));
   } catch {
     // The current round remains playable when storage is unavailable.
@@ -65,6 +67,15 @@ function persist() {
 
 function balance() {
   return startingBudget - round.owned.reduce((spent, item) => spent + item.price, 0);
+}
+
+function comfort() {
+  return round.owned.reduce((total, item) => total + item.comfort, 0);
+}
+
+function updateStats() {
+  get('balance').textContent = '$' + balance();
+  get('comfort').textContent = comfort();
 }
 
 function canPlace(item) {
@@ -77,7 +88,7 @@ function lost() {
 }
 
 function finished() {
-  return lost() || balance() === 0 || !items.some((item) => canPlace(item) && item.price <= balance());
+  return round.submitted || lost() || balance() === 0 || !items.some((item) => canPlace(item) && item.price <= balance());
 }
 
 function paint(preview = true) {
@@ -92,11 +103,12 @@ function paint(preview = true) {
 function render() {
   const left = balance();
   const done = finished();
-  get('balance').textContent = '$' + left;
+  updateStats();
+  get('finish').disabled = !round.owned.length || lost() || round.submitted;
+  get('check-result').hidden = !round.submitted;
   get('night').setAttribute('aria-pressed', round.night);
 
   if (lost()) {
-    console.log('you lose the game');
     get('shop-title').textContent = 'you lose the game';
     get('guide').textContent = 'you lose the game';
     get('shop-content').hidden = true;
@@ -113,12 +125,15 @@ function render() {
   get('save').disabled = !round.owned.length;
   get('shop-title').textContent = done ? 'Your room is finished' : 'Room shop';
   get('guide').textContent = done
-    ? (left && items.some(canPlace) ? 'Your remaining budget cannot cover another item.' : 'Your round is complete.')
+    ? (round.submitted ? 'Your round is complete.' : 'Shopping is complete. Check your design to see your result.')
     : (round.owned.length ? 'Preview an item, then buy it to place it.' : 'Choose a sleeping setup to get started.');
   get('shop-content').hidden = done;
   get('summary').hidden = !done;
   if (done) {
-    get('round-totals').textContent = 'You spent $' + (startingBudget - left) + ' and have $' + left + ' left.';
+    get('round-totals').textContent = 'You spent $' + (startingBudget - left) + ' and have $' + left + ' left. Your comfort score is ' + comfort() + '.';
+    get('check-result').textContent = balance() > 0 && comfort() > comfortTarget
+      ? 'You win the game!'
+      : 'To win, finish with money left and more than ' + comfortTarget + ' comfort points.';
     get('bed-reflection').textContent = bedReflections[round.owned[0].id];
   }
   for (const button of categoryButtons) {
@@ -138,7 +153,9 @@ function render() {
     name.textContent = item.name;
     const cost = document.createElement('span');
     cost.textContent = '$' + item.price;
-    button.append(name, cost);
+    const points = document.createElement('small');
+    points.textContent = '+' + item.comfort + ' comfort';
+    button.append(name, cost, points);
     const note = occupied
       ? (round.owned.includes(item) ? 'Placed' : 'Slot already filled')
       : (item.price > left ? 'Over budget' : '');
@@ -179,7 +196,7 @@ get('buy').addEventListener('click', () => {
     return;
   }
   // Leave the shop in place until the purchase fact has been read.
-  get('balance').textContent = '$' + balance();
+  updateStats();
   paint();
   get('fact-title').textContent = item.name;
   get('fact-text').textContent = item.fact;
@@ -194,10 +211,19 @@ get('facts').addEventListener('close', () => {
   render();
   if (finished()) {
     get('shop-title').tabIndex = -1;
-    get('shop-title').focus();
+    (get('finish').disabled ? get('shop-title') : get('finish')).focus();
   } else {
     categoryButtons.find((button) => button.dataset.category === category).focus();
   }
+});
+
+get('finish').addEventListener('click', () => {
+  if (!round.owned.length || lost() || round.submitted) return;
+  round.submitted = true;
+  selection = null;
+  persist();
+  render();
+  get('check-result').focus();
 });
 
 get('night').addEventListener('click', () => {

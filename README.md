@@ -1,6 +1,6 @@
 # Bed Space
 
-A browser game where players furnish a bed space with $300 in game money. Each purchase adds an item to the room and opens a short lesson about it.
+A browser game where players furnish a bed space with $200 in game money. Each purchase within budget adds comfort points and opens a short lesson. Select **Finish design and check** with money left and more than 100 comfort points to win.
 
 Open `index.html` in a browser to play locally. The game has no build step or dependencies. Progress is saved in the browser where local storage is available.
 
