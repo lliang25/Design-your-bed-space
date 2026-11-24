@@ -1,6 +1,6 @@
 'use strict';
 
-const startingBudget = 300;
+const startingBudget = 200;
 const items = [
   ['topper', 'Bed', 'bed', 'Mattress topper on the floor', 45, 'A topper is sold as an extra layer for a mattress. The essay begins with a family who bought toppers by mistake, tried them on the floor, and found them comfortable enough to keep using for four years. What would you want to try before buying a whole bed?'],
   ['foldable', 'Bed', 'bed', 'Foldable futon', 60, 'In Japan, futon bedding is traditionally laid out on woven mats called tatami. Folding it away allows the room to serve other purposes during the day. Western-style beds also became more common after World War II, as ideas about furnishing the home changed.'],
@@ -72,8 +72,12 @@ function canPlace(item) {
     && !round.owned.some((owned) => owned.slot === item.slot);
 }
 
+function lost() {
+  return balance() < 0;
+}
+
 function finished() {
-  return balance() === 0 || !items.some((item) => canPlace(item) && item.price <= balance());
+  return lost() || balance() === 0 || !items.some((item) => canPlace(item) && item.price <= balance());
 }
 
 function paint(preview = true) {
@@ -90,6 +94,22 @@ function render() {
   const done = finished();
   get('balance').textContent = '$' + left;
   get('night').setAttribute('aria-pressed', round.night);
+
+  if (lost()) {
+    console.log('you lose the game');
+    get('shop-title').textContent = 'you lose the game';
+    get('guide').textContent = 'you lose the game';
+    get('shop-content').hidden = true;
+    get('summary').hidden = false;
+    get('round-totals').textContent = 'You went $' + Math.abs(left) + ' over budget.';
+    get('bed-reflection').textContent = '';
+    get('save').disabled = true;
+    get('buy').disabled = true;
+    for (const button of categoryButtons) button.disabled = true;
+    paint();
+    return;
+  }
+
   get('save').disabled = !round.owned.length;
   get('shop-title').textContent = done ? 'Your room is finished' : 'Room shop';
   get('guide').textContent = done
@@ -135,9 +155,9 @@ function render() {
     get('catalog').append(button);
   }
   get('preview').textContent = selection
-    ? (selection.price <= left ? '$' + (left - selection.price) + ' left after this purchase.' : 'You need $' + (selection.price - left) + ' more for this item.')
+    ? (selection.price <= left ? '$' + (left - selection.price) + ' left after this purchase.' : 'This purchase will leave $' + Math.abs(left - selection.price) + ' of debt.')
     : 'Select an item to preview it in the room.';
-  get('buy').disabled = done || !selection || selection.price > left;
+  get('buy').disabled = done || !selection;
   paint();
 }
 
@@ -148,12 +168,16 @@ categoryButtons.forEach((button) => button.addEventListener('click', () => {
 }));
 
 get('buy').addEventListener('click', () => {
-  if (!selection || finished() || !canPlace(selection) || selection.price > balance()) return;
+  if (!selection || finished() || !canPlace(selection)) return;
   const item = selection;
   round.owned.push(item);
   selection = null;
   if (item.slot === 'bed') category = 'Bedding';
   persist();
+  if (lost()) {
+    render();
+    return;
+  }
   // Leave the shop in place until the purchase fact has been read.
   get('balance').textContent = '$' + balance();
   paint();
